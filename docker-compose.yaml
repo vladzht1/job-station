@@ -1,0 +1,48 @@
+version: "3.9"
+
+services:
+    postgres:
+        container_name: postgres-job-station
+        image: postgres:16.2-alpine3.18
+        environment:
+            POSTGRES_DB: "job_station"
+            POSTGRES_USER: "postgres"
+            POSTGRES_PASSWORD: "root"
+            PGDATA: /var/lib/postgresql/data/db
+        restart: unless-stopped
+
+        networks:
+            - postgres-job-station
+
+        volumes:
+            - postgres-job-station:/var/lib/postgresql/data
+        ports:
+            - "5432:5432"
+
+    pgadmin:
+        container_name: pgadmin-job-station
+        image: dpage/pgadmin4
+        user: "$UID:$GID"
+        environment:
+            PGADMIN_DEFAULT_EMAIL: vlad.zheltov1@gmail.com
+            PGADMIN_DEFAULT_PASSWORD: root
+            PGADMIN_CONFIG_SERVER_MODE: "False"
+        volumes:
+            - pgadmin-job-station:/var/lib/pgadmin
+
+        links:
+            - "postgres:database"
+
+        ports:
+            - "5051:80"
+        networks:
+            - postgres-job-station
+        restart: unless-stopped
+
+networks:
+    postgres-job-station:
+        driver: bridge
+
+volumes:
+    postgres-job-station:
+    pgadmin-job-station:
