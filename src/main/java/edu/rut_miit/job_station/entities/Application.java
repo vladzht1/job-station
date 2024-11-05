@@ -47,7 +47,7 @@ public class Application extends BaseEntity {
     }
 
     @Column(name = "status")
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     public ApplicationStatus getStatus() {
         return status;
     }

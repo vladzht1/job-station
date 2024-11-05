@@ -29,7 +29,7 @@ public class Skill extends BaseEntity {
     }
 
     @Column(name = "category")
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     public SkillCategory getCategory() {
         return category;
     }
