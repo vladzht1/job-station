@@ -1,0 +1,51 @@
+<th:block th:insert="~{/fragments/head}"></th:block>
+<th:block th:insert="~{/fragments/header}"></th:block>
+
+<main class="container">
+    <div class="row">
+        <section class="col-8">
+            <article
+                class="d-flex gap-2 justify-content-between align-items-center"
+            >
+                <h2 th:text="${model.vacancy.title}" class="fw-medium">
+                    Название
+                </h2>
+                <div class="d-flex gap-2">
+                    <th:block
+                        th:replace="~{/components/apply-for-vacancy-button::applyButton(vacancyId = ${model.vacancy.id})}"
+                    >
+                    </th:block>
+                </div>
+            </article>
+            <article>
+                <a
+                    th:href="@{/companies/{id}(id=${model.vacancy.company.id})}"
+                    th:text="${model.vacancy.company.name}"
+                ></a>
+            </article>
+            <article>
+                <div
+                    th:replace="~{/components/price-component::price(value = ${model.vacancy.salary})}"
+                ></div>
+                <div th:text="${model.vacancy.description}" class="mt-3"></div>
+            </article>
+            <article class="mt-2">
+                <span class="fw-bold">Навыки:</span>
+                <div class="d-flex gap-2 mt-1">
+                    <div
+                        class="badge rounded-pill bg-light"
+                        th:each="s : ${model.vacancy.skills}"
+                        th:text="${s}"
+                    ></div>
+                </div>
+            </article>
+        </section>
+        <section class="col">
+            <th:block
+                th:insert="~{/components/recommended-vacancies-block::recommendedVacancies(vacancies = ${model.userRecommendedVacancies})}"
+            ></th:block>
+        </section>
+    </div>
+</main>
+
+<th:block th:insert="~{/fragments/bottom}"></th:block>

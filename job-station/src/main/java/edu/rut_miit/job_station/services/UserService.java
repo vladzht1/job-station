@@ -1,14 +1,18 @@
 package edu.rut_miit.job_station.services;
 
-import java.util.Optional;
+import java.util.List;
 
-import edu.rut_miit.job_station.dto.user.AddUserDto;
-import edu.rut_miit.job_station.dto.user.UpdateUserDto;
-import edu.rut_miit.job_station.entities.User;
+import edu.rut_miit.job_station.dto.user.UserCreateDto;
+import edu.rut_miit.job_station.dto.user.UserUpdateDto;
+import edu.rut_miit.job_station.dto.user.UserDto;
 
 public interface UserService {
-    Iterable<User> findAllUsers();
-    Optional<User> findUserById(String id);
-    User addUser(AddUserDto userDto);
-    User updateUser(UpdateUserDto userDto);
+    List<UserDto> findAllUsers();
+    UserDto findUserById(String id);
+    UserDto findUserByUsername(String username);
+    long count();
+    UserDto addUser(UserCreateDto userDto);
+    UserDto updateUser(UserUpdateDto userDto);
+    UserDto block(String id);
+    UserDto unblock(String id);
 }

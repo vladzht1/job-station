@@ -1,77 +1,80 @@
 package com.example.job_station_contracts.input;
 
-public class RegisterForm {
-  private String firstName;
-  private String middleName;
-  private String lastName;
-  private String email;
-  private String login;
-  private String password;
-  private String confirmPassword;
+import org.hibernate.validator.constraints.Length;
 
-  public RegisterForm(String firstName, String middleName, String lastName, String email, String login, String password, String confirmPassword) {
-    this.firstName = firstName;
-    this.middleName = middleName;
-    this.lastName = lastName;
-    this.email = email;
-    this.login = login;
-    this.password = password;
-    this.confirmPassword = confirmPassword;
-  }
+import com.example.job_station_contracts.interfaces.PasswordDto;
+import com.example.job_station_contracts.validation.PasswordMatches;
 
-  public String getFirstName() {
-    return firstName;
-  }
+import jakarta.validation.constraints.NotBlank;
 
-  public String getMiddleName() {
-    return middleName;
-  }
+@PasswordMatches()
+public class RegisterForm implements PasswordDto {
+    private String firstName;
+    private String middleName;
+    private String lastName;
+    private String login;
+    private String password;
+    private String confirmPassword;
 
-  public String getLastName() {
-    return lastName;
-  }
+    public RegisterForm(String firstName, String middleName, String lastName, String login, String password, String confirmPassword) {
+        this.firstName = firstName;
+        this.middleName = middleName;
+        this.lastName = lastName;
+        this.login = login;
+        this.password = password;
+        this.confirmPassword = confirmPassword;
+    }
 
-  public String getEmail() {
-    return email;
-  }
+    @Length(min = 2, message = "Имя должно содержать как минимум 2 символа")
+    public String getFirstName() {
+        return firstName;
+    }
 
-  public String getLogin() {
-    return login;
-  }
+    public String getMiddleName() {
+        return middleName;
+    }
 
-  public String getPassword() {
-    return password;
-  }
+    @Length(min = 2, message = "Фамилия должна содержать как минимум 2 символа")
+    public String getLastName() {
+        return lastName;
+    }
 
-  public String getConfirmPassword() {
-    return confirmPassword;
-  }
+    @Length(min = 4, message = "Логин должен содержать как минимум 4 символа")
+    public String getLogin() {
+        return login;
+    }
 
-  public void setFirstName(String firstName) {
-    this.firstName = firstName;
-  }
+    @Length(min = 8, message = "Пароль должен содержать как минимум 8 символов")
+    public String getPassword() {
+        return password;
+    }
 
-  public void setMiddleName(String middleName) {
-    this.middleName = middleName;
-  }
+    @NotBlank(message = "Это поле должно быть заполнено")
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
 
-  public void setLastName(String lastName) {
-    this.lastName = lastName;
-  }
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-  public void setEmail(String email) {
-    this.email = email;
-  }
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
 
-  public void setLogin(String login) {
-    this.login = login;
-  }
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-  public void setPassword(String password) {
-    this.password = password;
-  }
+    public void setLogin(String login) {
+        this.login = login;
+    }
 
-  public void setConfirmPassword(String confirmPassword) {
-    this.confirmPassword = confirmPassword;
-  }
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+    }
 }

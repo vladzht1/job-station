@@ -1,0 +1,22 @@
+<th:block th:insert="~{/fragments/head}"></th:block>
+<th:block th:insert="~{/fragments/header}"></th:block>
+
+<main class="container">
+    <h1
+        th:text="${model.user.lastName + ' ' + model.user.firstName + ' ' + model.user.middleName}"
+    ></h1>
+
+    <div th:text="${'@' + model.user.username}" class="text-muted"></div>
+
+    <div class="mt-3">
+        <h5>Резюме пользователя:</h5>
+        <div class="m-0 d-flex flex-column gap-2">
+            <th:block
+                th:each="resume : ${model.resumes}"
+                th:insert="~{/components/resume-card::resumeCard(resume = resume)}"
+            ></th:block>
+        </div>
+    </div>
+</main>
+
+<th:block th:insert="~{/fragments/bottom}"></th:block>

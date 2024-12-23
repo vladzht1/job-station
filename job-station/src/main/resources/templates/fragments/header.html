@@ -1,0 +1,152 @@
+<header class="mb-1">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container">
+            <a class="navbar-brand" href="/">JobStation</a>
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+            >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">
+                            Вакансии
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/rating">
+                            Рейтинг
+                        </a>
+                    </li>
+                    <li
+                        class="nav-item"
+                        th:if="${currentUser != null && currentUser.isCommercialAccount}"
+                    >
+                        <a class="nav-link" href="/companies">Мои компании</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/resumes">Мои резюме</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/applications">Отклики</a>
+                    </li>
+                    <li
+                        class="nav-item dropdown"
+                        sec:authorize="hasRole('ADMIN')"
+                    >
+                        <a
+                            class="nav-link dropdown-toggle"
+                            href="#"
+                            role="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                        >
+                            Админ панель
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="/admin">
+                                    Панель
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider" /></li>
+                            <li>
+                                <a class="dropdown-item" href="/admin/users">
+                                    Пользователи
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    class="dropdown-item"
+                                    href="/admin/companies"
+                                >
+                                    Компании
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/admin/resumes">
+                                    Резюме
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    class="dropdown-item"
+                                    href="/admin/vacancies"
+                                >
+                                    Вакансии
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/admin/skills">
+                                    Навыки
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="nav-item dropdown">
+                    <a
+                        class="nav-link dropdown-toggle"
+                        href="#"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                    >
+                        <th:block sec:authorize="isAnonymous()">
+                            Профиль
+                        </th:block>
+                        <th:block
+                            sec:authorize="!isAnonymous()"
+                            sec:authentication="name"
+                        ></th:block>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <th:block sec:authorize="!isAuthenticated()">
+                            <li>
+                                <a
+                                    class="dropdown-item"
+                                    th:href="@{/auth/login}"
+                                >
+                                    Вход
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    class="dropdown-item"
+                                    th:href="@{/auth/signup}"
+                                >
+                                    Регистрация
+                                </a>
+                            </li>
+                        </th:block>
+                        <th:block sec:authorize="isAuthenticated()">
+                            <li>
+                                <a class="dropdown-item" href="/profile">
+                                    Профиль
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider" /></li>
+                            <li>
+                                <form
+                                    th:method="post"
+                                    th:action="@{/auth/logout}"
+                                >
+                                    <button class="dropdown-item" type="submit">
+                                        Выйти
+                                    </button>
+                                </form>
+                            </li>
+                        </th:block>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>

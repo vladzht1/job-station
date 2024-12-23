@@ -1,0 +1,117 @@
+<div
+    th:fragment="resumeForm(action, cancelPath, primaryActionName, canSelectCreator)"
+>
+    <form th:method="post" th:action="${action}" th:object="${form}">
+        <div>
+            <label for="job-title" class="form-label mt-4">Должность</label>
+            <input
+                type="text"
+                id="job-title"
+                name="title"
+                min="0"
+                class="form-control"
+                placeholder="Укажите название должности"
+                th:value="*{title}"
+                th:errorclass="is-invalid"
+            />
+            <div th:if="${#fields.hasErrors('title')}">
+                <small th:errors="*{title}" class="text-danger">
+                    Error message
+                </small>
+            </div>
+        </div>
+
+        <div>
+            <label for="salary" class="form-label mt-4">Зарплата</label>
+            <input
+                type="number"
+                id="salary"
+                name="salary"
+                min="0"
+                class="form-control"
+                placeholder="Укажите желаемую зарплату"
+                th:value="*{salary}"
+                th:errorclass="is-invalid"
+            />
+            <small class="form-text text-muted">
+                Если вы не хотите указывать эту информацию, оставьте значение 0
+            </small>
+            <div th:if="${#fields.hasErrors('salary')}">
+                <small th:errors="*{salary}" class="text-danger">
+                    Error message
+                </small>
+            </div>
+        </div>
+
+        <div>
+            <label for="resume-content" class="form-label mt-4">О себе</label>
+            <textarea
+                class="form-control"
+                id="resume-content"
+                name="content"
+                rows="3"
+                style="height: 139px"
+                placeholder="Добавьте информацию о себе, предыдущих местах работы и другую информацию"
+                th:text="*{content}"
+                th:errorclass="is-invalid"
+            ></textarea>
+            <div th:if="${#fields.hasErrors('content')}">
+                <small th:errors="*{content}" class="text-danger">
+                    Error message
+                </small>
+            </div>
+        </div>
+
+        <div>
+            <label for="salary" class="form-label mt-4">Навыки</label>
+            <input
+                type="text"
+                id="skills"
+                name="skills"
+                min="0"
+                class="form-control"
+                placeholder="Укажите навыки, требуемые для вакансии"
+                th:value="${#strings.listJoin(form.skills, ', ')}"
+                th:errorclass="is-invalid"
+            />
+            <small class="form-text text-muted">
+                Навыки можно добавлять через запятую
+            </small>
+            <div th:if="${#fields.hasErrors('skills')}">
+                <small th:errors="*{skills}" class="text-danger">
+                    Error message
+                </small>
+            </div>
+        </div>
+
+        <div th:if="${canSelectCreator}">
+            <label for="creator" class="form-label mt-4">
+                Создатель резюме
+            </label>
+            <select class="form-select" name="creatorId">
+                <option th:selected="${form.creatorId == null}" disabled>
+                    Выберите создателя резюме
+                </option>
+                <option
+                    th:each="user : ${users}"
+                    th:text="${user.firstName + ' ' + user.lastName}"
+                    th:value="${user.id}"
+                    th:selected="${user.id == form.creatorId}"
+                >
+                    ФИ
+                </option>
+            </select>
+        </div>
+
+        <div class="d-flex gap-2 justify-content-end">
+            <button
+                type="submit"
+                class="btn btn-primary"
+                th:text="${primaryActionName}"
+            >
+                Сохранить
+            </button>
+            <a th:href="${cancelPath}" class="btn btn-secondary">Отмена</a>
+        </div>
+    </form>
+</div>

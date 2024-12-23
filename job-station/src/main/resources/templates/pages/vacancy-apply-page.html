@@ -1,0 +1,122 @@
+<th:block th:insert="~{/fragments/head}"></th:block>
+<th:block th:insert="~{/fragments/header}"></th:block>
+
+<main class="container">
+    <h1>Отправить отклик</h1>
+    <div>
+        Вы откликаетесь на вакансию
+        <a
+            th:href="@{/vacancies/{id}(id=${model.vacancy.id})}"
+            th:text="${model.vacancy.title}"
+        ></a>
+        в компании
+        <a
+            th:href="@{/companies/{id}(id=${model.vacancy.company.id})}"
+            th:text="${model.vacancy.company.name}"
+        ></a>
+        . Выберите резюме и нажмите "Отправить отклик".
+
+        <form
+            th:action="@{/vacancies/{id}/apply(id=${model.vacancy.id})}"
+            th:method="post"
+        >
+            <div class="mt-3">
+                <input
+                    type="text"
+                    id="vacancyId"
+                    name="vacancyId"
+                    th:value="${model.vacancy.id}"
+                    hidden
+                />
+
+                <select
+                    id="resumeSelect"
+                    name="resumeId"
+                    class="form-control"
+                    onchange="handleSelect()"
+                >
+                    <option disabled selected value="">Выберите резюме</option>
+                    <option
+                        th:each="resume : ${resumes}"
+                        th:text="${resume.title}"
+                        th:value="${resume.id}"
+                    ></option>
+                </select>
+            </div>
+
+            <span
+                id="formErrorMessage"
+                class="text-danger"
+                style="display: none"
+            ></span>
+
+            <div class="mt-3">
+                <button
+                    id="sendApplicationButton"
+                    type="submit"
+                    class="btn btn-primary"
+                    disabled
+                >
+                    Отправить отклик
+                </button>
+
+                <a th:href="@{/resumes/new}" class="btn btn-outline-secondary">
+                    Создать новое резюме
+                </a>
+            </div>
+        </form>
+    </div>
+</main>
+
+<script>
+    const canUseResumeForCurrentVacancy = async (resumeId) => {
+        const vacancyId = document.querySelector("#vacancyId").value;
+
+        const result = await (
+            await fetch(
+                `/api/applications/check_application?vacancyId=${vacancyId}&resumeId=${resumeId}`
+            )
+        ).json();
+
+        return !result;
+    };
+
+    const handleSelect = () => {
+        const resumeId = document.querySelector("#resumeSelect").value;
+        document.querySelector("#sendApplicationButton").disabled = !resumeId;
+    };
+
+    window.addEventListener("load", async () => {
+        const resumeOptions = document.querySelector("#resumeSelect").children;
+
+        let hasResumes = false;
+
+        for (let option of resumeOptions) {
+            if (!option.value) {
+                continue;
+            }
+
+            console.log(option);
+
+            const isDisabled =
+                (await canUseResumeForCurrentVacancy(option.value)) === false;
+
+            option.disabled = isDisabled;
+
+            if (!isDisabled) {
+                hasResumes = true;
+            }
+        }
+
+        if (hasResumes) {
+            return;
+        }
+
+        const errorMessageBlock = document.querySelector("#formErrorMessage");
+        errorMessageBlock.innerHTML =
+            "Вы больше не можете откликнуться на эту вакансию. Создайте новое резюме и отправьте отклик";
+        errorMessageBlock.style.display = "block";
+    });
+</script>
+
+<th:block th:insert="~{/fragments/bottom}"></th:block>

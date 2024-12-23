@@ -1,0 +1,12 @@
+<th:block th:insert="~{/fragments/head}"></th:block>
+<th:block th:insert="~{/fragments/header}"></th:block>
+
+<main class="container">
+    <h1>Редактировать компанию</h1>
+
+    <th:block
+        th:insert="~{/components/company-form::companyForm(action = @{/companies/{id}/edit(id=${form.id})}, cancelPath = '/companies', primaryActionName = 'Обновить', canSelectCreator = false)}"
+    ></th:block>
+</main>
+
+<th:block th:insert="~{/fragments/bottom}"></th:block>

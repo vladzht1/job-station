@@ -1,12 +1,18 @@
 package edu.rut_miit.job_station.services;
 
-import java.util.Optional;
+import java.util.List;
 
-import edu.rut_miit.job_station.dto.company.AddCompanyDto;
-import edu.rut_miit.job_station.entities.Company;
+import edu.rut_miit.job_station.dto.company.CompanyCreateDto;
+import edu.rut_miit.job_station.dto.company.CompanyDto;
+import edu.rut_miit.job_station.dto.company.CompanyRatingDto;
+import edu.rut_miit.job_station.dto.company.CompanyUpdateDto;
 
 public interface CompanyService {
-    Iterable<Company> findAllCompanies();
-    Optional<Company> findCompanyById(String id);
-    Company registerCompany(AddCompanyDto companyDto);
+    List<CompanyDto> findAllCompanies();
+    List<CompanyDto> findCompaniesByCreatorId(String creatorId);
+    List<CompanyRatingDto> findMostRankedCompanies();
+    CompanyDto findCompanyById(String id);
+    long count();
+    CompanyDto registerCompany(CompanyCreateDto companyDto, String creatorId);
+    CompanyDto updateCompany(String id, CompanyUpdateDto companyDto);
 }

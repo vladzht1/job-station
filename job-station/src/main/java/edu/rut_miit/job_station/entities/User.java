@@ -3,11 +3,15 @@ package edu.rut_miit.job_station.entities;
 import edu.rut_miit.job_station.exceptions.ClientException;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -17,29 +21,36 @@ public class User extends BaseEntity {
     private String firstName;
     private String middleName;
     private String lastName;
-    private String login;
+    private String username;
     private String password;
     private LocalDateTime joinedAt;
     private LocalDateTime updatedAt;
     private boolean isBlocked;
     private String blockReason;
     private Set<Resume> resumes;
+    private boolean isCommercialAccount;
+    private List<Role> roles;
 
-    public User(String firstName, String middleName, String lastName, String login, String password) {
+    public User(String firstName, String middleName, String lastName, String username, String password, boolean isCommercialAccount) {
+        this();
+
         setFirstName(firstName);
         setMiddleName(middleName);
         setLastName(lastName);
-        setLogin(login);
+        setUsername(username);
         setPassword(password);
         setBlocked(false);
         setBlockReason(null);
         setResumes(new HashSet<>());
+        setCommercialAccount(isCommercialAccount);
 
         setJoinedAt(LocalDateTime.now());
         setUpdatedAt(LocalDateTime.now());
     }
 
-    protected User() {}
+    protected User() {
+        this.roles = new ArrayList<>();
+    }
 
     @Column(name = "first_name")
     public String getFirstName() {
@@ -56,9 +67,9 @@ public class User extends BaseEntity {
         return lastName;
     }
 
-    @Column(name = "login")
-    public String getLogin() {
-        return login;
+    @Column(name = "username")
+    public String getUsername() {
+        return username;
     }
 
     @Column(name = "password")
@@ -91,6 +102,16 @@ public class User extends BaseEntity {
         return resumes;
     }
 
+    @Column(name = "is_commercial_account")
+    public boolean isCommercialAccount() {
+        return isCommercialAccount;
+    }
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    public List<Role> getRoles() {
+        return roles;
+    }
+
     public void addResume(Resume resume) {
         resumes.add(resume);
     }
@@ -110,7 +131,7 @@ public class User extends BaseEntity {
 
     public void unblock() {
         if (!isBlocked()) {
-            throw new ClientException.InvalidStateException("Данный пользователь не заблокирован");
+            throw new ClientException.InvalidStateException("User is not blocked");
         }
 
         setBlocked(false);
@@ -134,8 +155,8 @@ public class User extends BaseEntity {
         markAtUpdated();
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setUsername(String username) {
+        this.username = username;
         markAtUpdated();
     }
 
@@ -147,6 +168,15 @@ public class User extends BaseEntity {
     public void setResumes(Set<Resume> resumes) {
         this.resumes = resumes;
         markAtUpdated();
+    }
+
+    public void setCommercialAccount(boolean isCommercialAccount) {
+        this.isCommercialAccount = isCommercialAccount;
+        markAtUpdated();
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 
     protected void setJoinedAt(LocalDateTime joinedAt) {
@@ -167,7 +197,7 @@ public class User extends BaseEntity {
 
     private void blockOrThrowException() {
         if (isBlocked()) {
-            throw new ClientException.InvalidStateException("Данный пользователь уже заблокирован");
+            throw new ClientException.InvalidStateException("User is already blocked");
         }
 
         setBlocked(true);

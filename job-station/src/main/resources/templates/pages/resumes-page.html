@@ -1,0 +1,30 @@
+<th:block th:insert="~{/fragments/head}"></th:block>
+<th:block th:insert="~{/fragments/header}"></th:block>
+
+<main class="container">
+    <div class="row">
+        <div class="col-8 d-flex gap-2 align-items-center">
+            <h1>Мои резюме</h1>
+
+            <div>
+                <a href="/resumes/new" class="btn btn-link">Добавить</a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-8 m-0 d-flex flex-column gap-2">
+                <th:block
+                    th:each="resume : ${model.resumes}"
+                    th:insert="~{/components/resume-card::resumeCard(resume = resume)}"
+                ></th:block>
+            </div>
+            <div class="col">
+                <th:block
+                    th:insert="~{/components/recommended-vacancies-block::recommendedVacancies(vacancies = ${model.userRecommendedVacancies})}"
+                ></th:block>
+            </div>
+        </div>
+    </div>
+</main>
+
+<th:block th:insert="~{/fragments/bottom}"></th:block>

@@ -1,49 +1,65 @@
 package com.example.job_station_contracts.input;
 
-import java.util.List;
+import org.hibernate.validator.constraints.Length;
+
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 
 public class VacancyForm {
-  private String companyId;
-  private double offeredSalary;
-  private String description;
-  private List<String> skills;
+    private String title;
+    private String content;
+    private String companyId;
+    private int offeredSalary;
+    private String skills;
 
-  public VacancyForm(String companyId, double offeredSalary, String description, List<String> skills) {
-    this.companyId = companyId;
-    this.offeredSalary = offeredSalary;
-    this.description = description;
-    this.skills = skills;
-  }
+    public VacancyForm(String title, String companyId, int offeredSalary, String content, String skills) {
+        this.companyId = companyId;
+        this.offeredSalary = offeredSalary;
+        this.content = content;
+        this.skills = skills;
+    }
 
-  public String getCompanyId() {
-    return companyId;
-  }
+    @Length(min = 5, message = "Название должности должно содержать минимум 5 символов")
+    public String getTitle() {
+        return title;
+    }
 
-  public double getOfferedSalary() {
-    return offeredSalary;
-  }
+    @Length(min = 15, message = "Информация должна содержать минимум 15 символов")
+    public String getContent() {
+        return content;
+    }
 
-  public String getDescription() {
-    return description;
-  }
+    public String getCompanyId() {
+        return companyId;
+    }
 
-  public List<String> getSkills() {
-    return skills;
-  }
+    @Min(value = 0, message = "Данное значение не может быть отрицательным")
+    public int getOfferedSalary() {
+        return offeredSalary;
+    }
 
-  public void setCompanyId(String companyId) {
-    this.companyId = companyId;
-  }
+    @NotBlank(message = "Необходимо указать хотя бы один навык")
+    public String getSkills() {
+        return skills;
+    }
 
-  public void setOfferedSalary(double offeredSalary) {
-    this.offeredSalary = offeredSalary;
-  }
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-  public void setDescription(String description) {
-    this.description = description;
-  }
+    public void setContent(String content) {
+        this.content = content;
+    }
 
-  public void setSkills(List<String> skills) {
-    this.skills = skills;
-  }
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
+    }
+
+    public void setOfferedSalary(int offeredSalary) {
+        this.offeredSalary = offeredSalary;
+    }
+
+    public void setSkills(String skills) {
+        this.skills = skills;
+    }
 }

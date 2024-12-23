@@ -1,0 +1,23 @@
+<th:block th:insert="~{/fragments/head}"></th:block>
+<th:block th:insert="~{/fragments/header}"></th:block>
+
+<main class="container">
+    <div class="row">
+        <div class="col-8 d-flex gap-2 align-items-center">
+            <h1>Мои компании</h1>
+
+            <div>
+                <a href="/companies/new" class="btn btn-link">Добавить</a>
+            </div>
+        </div>
+
+        <div class="m-0 d-flex flex-column gap-2">
+            <th:block
+                th:each="company : ${model.companies}"
+                th:insert="~{/components/company-card::companyCard(company = company)}"
+            ></th:block>
+        </div>
+    </div>
+</main>
+
+<th:block th:insert="~{/fragments/bottom}"></th:block>

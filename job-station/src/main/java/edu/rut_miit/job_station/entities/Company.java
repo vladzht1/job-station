@@ -1,11 +1,12 @@
 package edu.rut_miit.job_station.entities;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -14,14 +15,16 @@ import jakarta.persistence.Table;
 public class Company extends BaseEntity {
     private String name;
     private String description;
+    private User creator;
     private LocalDateTime createdAt;
-    private Set<Vacancy> vacancies;
+    private List<Vacancy> vacancies;
 
-    public Company(String name, String description) {
+    public Company(String name, String description, User creator) {
         setName(name);
         setDescription(description);
-        setCreationDate(LocalDateTime.now());
-        setVacancies(new HashSet<>());
+        setCreator(creator);
+        setCreatedAt(LocalDateTime.now());
+        setVacancies(new ArrayList<>());
     }
 
     protected Company() {}
@@ -36,13 +39,18 @@ public class Company extends BaseEntity {
         return description;
     }
 
+    @ManyToOne
+    public User getCreator() {
+        return creator;
+    }
+
     @Column(name = "created_at")
-    public LocalDateTime getCreationDate() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
     @OneToMany
-    public Set<Vacancy> getVacancies() {
+    public List<Vacancy> getVacancies() {
         return vacancies;
     }
 
@@ -58,11 +66,15 @@ public class Company extends BaseEntity {
         this.description = description;
     }
 
-    public void setVacancies(Set<Vacancy> vacancies) {
+    public void setCreator(User creator) {
+        this.creator = creator;
+    }
+
+    public void setVacancies(List<Vacancy> vacancies) {
         this.vacancies = vacancies;
     }
 
-    protected void setCreationDate(LocalDateTime createdAt) {
+    protected void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 }

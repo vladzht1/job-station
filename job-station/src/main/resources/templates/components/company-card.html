@@ -1,0 +1,28 @@
+<div th:fragment="companyCard(company)">
+    <div class="card">
+        <div class="card-body lh-sm">
+            <h5 class="card-title">
+                <a
+                    th:href="@{/companies/{id}(id=${company.id})}"
+                    class="text-decoration-none"
+                    th:text="${company.name}"
+                >
+                    Название компании
+                </a>
+            </h5>
+
+            <div class="text-muted" style="font-size: 0.9rem">
+                <th:block
+                    th:if="${company.description.length > 30}"
+                    th:text="${#strings.substring(company.description, 0, 30)}"
+                >
+                </th:block>
+                <th:block
+                    th:if="${company.description.length <= 30}"
+                    th:text="${company.description}"
+                >
+                </th:block>
+            </div>
+        </div>
+    </div>
+</div>

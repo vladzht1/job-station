@@ -1,0 +1,31 @@
+<th:block th:insert="~{/fragments/head}"></th:block>
+<th:block th:insert="~{/fragments/header}"></th:block>
+
+<main class="container">
+    <div class="m-0 d-flex flex-column gap-2">
+        <h1>Админ панель</h1>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Название</th>
+                    <th scope="col">Количество записей</th>
+                    <th scope="col">Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="row, index : ${model.tables}">
+                    <th scope="row" th:text="${index.count}"></th>
+                    <td th:text="${row.tableTitle}"></td>
+                    <td th:text="${row.recordsCount}"></td>
+                    <td>
+                        <a th:href="${row.path}">Просмотреть</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<th:block th:insert="~{/fragments/bottom}"></th:block>

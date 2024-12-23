@@ -1,6 +1,7 @@
 package edu.rut_miit.job_station.entities;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 import edu.rut_miit.job_station.exceptions.ClientException;
@@ -9,6 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -17,18 +19,21 @@ public class Resume extends BaseEntity {
     private String title;
     private String content;
     private User creator;
-    private float expectedSalary;
+    private int expectedSalary;
     private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
     private Set<Skill> skills;
-    private boolean isActive;
+    private List<Contact> contacts;
+    private boolean active;
 
-    public Resume(String title, String content, User creator, float expectedSalary, Set<Skill> skills) {
+    public Resume(String title, String content, User creator, int expectedSalary, Set<Skill> skills, List<Contact> contacts) {
         setTitle(title);
         setContent(content);
         setCreator(creator);
         setExpectedSalary(expectedSalary);
         setSkills(skills);
-        setCreationDate(LocalDateTime.now());
+        setCreatedAt(LocalDateTime.now());
+        setUpdatedAt(LocalDateTime.now());
         setActive(true);
     }
 
@@ -51,13 +56,18 @@ public class Resume extends BaseEntity {
     }
 
     @Column(name = "expected_salary")
-    public float getExpectedSalary() {
+    public int getExpectedSalary() {
         return expectedSalary;
     }
 
     @Column
-    public LocalDateTime getCreationDate() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    @Column
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
     }
 
     @ManyToMany
@@ -65,24 +75,34 @@ public class Resume extends BaseEntity {
         return skills;
     }
 
+    @OneToMany
+    public List<Contact> getContacts() {
+        return contacts;
+    }
+
+    @Column()
+    public boolean isActive() {
+        return active;
+    }
+
     public void addSkill(Skill skill) {
         skills.add(skill);
     }
 
     public void makeActive() {
-        if (!isActive) {
+        if (!active) {
             throw new ClientException.InvalidStateException("This resume is already active");
         }
 
-        this.isActive = true;
+        this.active = true;
     }
 
     public void makeInactive() {
-        if (!isActive) {
+        if (!active) {
             throw new ClientException.InvalidStateException("This resume is already inactive");
         }
 
-        this.isActive = false;
+        this.active = false;
     }
 
     public void setTitle(String title) {
@@ -93,7 +113,7 @@ public class Resume extends BaseEntity {
         this.content = content;
     }
 
-    public void setExpectedSalary(float expectedSalary) {
+    public void setExpectedSalary(int expectedSalary) {
         this.expectedSalary = expectedSalary;
     }
 
@@ -101,15 +121,23 @@ public class Resume extends BaseEntity {
         this.skills = skills;
     }
 
+    public void setContacts(List<Contact> contacts) {
+        this.contacts = contacts;
+    }
+
     protected void setActive(boolean active) {
-        this.isActive = active;
+        this.active = active;
     }
 
     protected void setCreator(User creator) {
         this.creator = creator;
     }
 
-    protected void setCreationDate(LocalDateTime creationDate) {
+    protected void setCreatedAt(LocalDateTime creationDate) {
         this.createdAt = creationDate;
+    }
+
+    protected void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

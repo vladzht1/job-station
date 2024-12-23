@@ -1,0 +1,22 @@
+<th:block th:insert="~{/fragments/head}"></th:block>
+<th:block th:insert="~{/fragments/header}"></th:block>
+
+<main class="container">
+    <div class="row gap-1">
+        <div class="col-8 m-0 d-flex flex-column gap-2">
+            <h1>Главная</h1>
+
+            <th:block
+                th:each="vacancy : ${model.vacancies}"
+                th:insert="~{/components/vacancy-card::vacancyCard(showActions = true, vacancy = vacancy)}"
+            ></th:block>
+        </div>
+        <div class="col">
+            <th:block
+                th:insert="~{/components/recommended-vacancies-block::recommendedVacancies(vacancies = ${model.userRecommendedVacancies})}"
+            ></th:block>
+        </div>
+    </div>
+</main>
+
+<th:block th:insert="~{/fragments/bottom}"></th:block>

@@ -1,0 +1,147 @@
+<th:block th:insert="~{/fragments/head}"></th:block>
+<th:block th:insert="~{/fragments/header}"></th:block>
+
+<main class="container">
+    <h1>Регистрация</h1>
+
+    <form th:method="post" th:action="${action}" th:object="${form}">
+        <div>
+            <label for="last-name" class="form-label mt-4">Фамилия</label>
+            <input
+                type="text"
+                id="last-name"
+                name="lastName"
+                class="form-control"
+                placeholder="Введите фамилию"
+                th:value="*{lastName}"
+                th:errorclass="is-invalid"
+            />
+            <small
+                th:if="${#fields.hasErrors('lastName')}"
+                th:errors="*{lastName}"
+                class="text-danger"
+            >
+                Error message
+            </small>
+        </div>
+
+        <div>
+            <label for="first-name" class="form-label mt-4">Имя</label>
+            <input
+                type="text"
+                id="first-name"
+                name="firstName"
+                class="form-control"
+                placeholder="Введите имя"
+                th:value="*{firstName}"
+                th:errorclass="is-invalid"
+            />
+            <small
+                th:if="${#fields.hasErrors('firstName')}"
+                th:errors="*{firstName}"
+                class="text-danger"
+            >
+                Error message
+            </small>
+        </div>
+
+        <div>
+            <label for="middle-name" class="form-label mt-4">Отчество</label>
+            <input
+                type="text"
+                id="middle-name"
+                name="middleName"
+                class="form-control"
+                placeholder="Введите отчество"
+                th:value="*{middleName}"
+                th:errorclass="is-invalid"
+            />
+            <small
+                th:if="${#fields.hasErrors('middleName')}"
+                th:errors="*{middleName}"
+                class="text-danger"
+            >
+                Error message
+            </small>
+        </div>
+
+        <div>
+            <label for="login" class="form-label mt-4">Логин</label>
+            <input
+                type="text"
+                id="login"
+                name="login"
+                class="form-control"
+                placeholder="Введите логин"
+                th:value="*{login}"
+                th:errorclass="is-invalid"
+            />
+            <small
+                th:if="${#fields.hasErrors('login')}"
+                th:errors="*{login}"
+                class="text-danger"
+            >
+                Error message
+            </small>
+        </div>
+
+        <div>
+            <label for="password" class="form-label mt-4">Пароль</label>
+            <input
+                type="password"
+                id="password"
+                name="password"
+                class="form-control"
+                placeholder="Введите пароль"
+                th:value="*{password}"
+                th:errorclass="is-invalid"
+            />
+            <small
+                th:if="${#fields.hasErrors('password')}"
+                th:errors="*{password}"
+                class="text-danger"
+            >
+                Error message
+            </small>
+        </div>
+
+        <div>
+            <label for="confirmPassword" class="form-label mt-4">
+                Повторите пароль
+            </label>
+            <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                class="form-control"
+                placeholder="Введите пароль"
+                th:value="*{confirmPassword}"
+                th:errorclass="is-invalid"
+            />
+            <small
+                th:if="${#fields.hasErrors('confirmPassword')}"
+                th:errors="*{confirmPassword}"
+                class="text-danger"
+            >
+                Error message
+            </small>
+        </div>
+
+        <div th:if="${#fields.hasGlobalErrors()}">
+            <small
+                class="text-danger"
+                th:each="err : ${#fields.globalDetailedErrors()}"
+            >
+                <div th:text="${err.getMessage()}">Error message</div>
+            </small>
+        </div>
+
+        <div class="mt-3">
+            <button type="submit" class="btn btn-primary">
+                Зарегистрироваться
+            </button>
+        </div>
+    </form>
+</main>
+
+<th:block th:insert="~{/fragments/bottom}"></th:block>

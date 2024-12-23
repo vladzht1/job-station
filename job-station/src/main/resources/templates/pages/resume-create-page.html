@@ -1,0 +1,12 @@
+<th:block th:insert="~{/fragments/head}"></th:block>
+<th:block th:insert="~{/fragments/header}"></th:block>
+
+<main class="container">
+    <h1>Добавить резюме</h1>
+
+    <th:block
+        th:insert="~{/components/resume-form::resumeForm(resume = ${form}, action='/resumes/new', cancelPath='/resumes', primaryActionName = 'Создать', canSelectCreator = false)}"
+    ></th:block>
+</main>
+
+<th:block th:insert="~{/fragments/bottom}"></th:block>

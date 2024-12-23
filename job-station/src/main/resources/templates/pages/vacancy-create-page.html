@@ -1,0 +1,12 @@
+<th:block th:insert="~{/fragments/head}"></th:block>
+<th:block th:insert="~{/fragments/header}"></th:block>
+
+<main class="container">
+    <h1>Добавить вакансию</h1>
+
+    <th:block
+        th:insert="~{/components/vacancy-form::vacancyForm(action = @{/companies/{companyId}/vacancies/new(companyId=${form.companyId})}, cancelPath = @{/companies/{id}(id=${form.companyId})}, primaryActionName = 'Создать')}"
+    ></th:block>
+</main>
+
+<th:block th:insert="~{/fragments/bottom}"></th:block>

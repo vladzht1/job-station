@@ -1,49 +1,76 @@
 package com.example.job_station_contracts.input;
 
-import java.util.List;
+import org.hibernate.validator.constraints.Length;
+
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 
 public class ResumeForm {
-  private String jobTitle;
-  private String salary;
-  private String description;
-  private List<String> skills;
+    private String id;
+    private String title;
+    private String content;
+    private int salary;
+    private String skills;
+    private String creatorId;
 
-  public ResumeForm(String jobTitle, String salary, String description, List<String> skills) {
-    this.jobTitle = jobTitle;
-    this.salary = salary;
-    this.description = description;
-    this.skills = skills;
-  }
+    public ResumeForm(String id, String title, String content, int salary, String skills, String creatorId) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.salary = salary;
+        this.skills = skills;
+        this.creatorId = creatorId;
+    }
 
-  public String getJobTitle() {
-    return jobTitle;
-  }
+    public String getId() {
+        return id;
+    }
 
-  public String getSalary() {
-    return salary;
-  }
+    @Length(min = 5, message = "Название должности должно содержать минимум 5 символов")
+    public String getTitle() {
+        return title;
+    }
 
-  public String getDescription() {
-    return description;
-  }
+    @Min(value = 0, message = "Данное значение не может быть отрицательным")
+    public int getSalary() {
+        return salary;
+    }
 
-  public List<String> getSkills() {
-    return skills;
-  }
+    @Length(min = 15, message = "Информация должна содержать минимум 15 символов")
+    public String getContent() {
+        return content;
+    }
 
-  public void setJobTitle(String jobTitle) {
-    this.jobTitle = jobTitle;
-  }
+    @NotBlank(message = "Необходимо указать хотя бы один навык")
+    public String getSkills() {
+        return skills;
+    }
 
-  public void setSalary(String salary) {
-    this.salary = salary;
-  }
+    public String getCreatorId() {
+        return creatorId;
+    }
 
-  public void setDescription(String description) {
-    this.description = description;
-  }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-  public void setSkills(List<String> skills) {
-    this.skills = skills;
-  }
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setSalary(int salary) {
+        this.salary = salary;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setSkills(String skills) {
+        this.skills = skills;
+    }
+
+    public void setCreatorId(String creatorId) {
+        this.creatorId = creatorId;
+    }
 }

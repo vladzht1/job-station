@@ -39,8 +39,38 @@ services:
             - postgres-job-station
         restart: unless-stopped
 
+    elasticsearch:
+        # image: docker.elastic.co/elasticsearch/elasticsearch:8.8.0
+        image: elasticsearch:8.16.2
+        container_name: elasticsearch
+        restart: unless-stopped
+        ports:
+            - "9200:9200"
+        environment:
+            discovery.type: single-node
+            xpack.security.enrollment.enabled: "true"
+            xpack.security.enabled: "false"
+            ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+        networks:
+            - lab-logging-network
+
+    kibana:
+        # image: docker.elastic.co/kibana/kibana:8.8.0
+        image: kibana:8.16.2
+        container_name: kibana
+        environment:
+            - 'ELASTICSEARCH_HOSTS=["http://localhost:9200"]'
+        ports:
+            - 5601:5601
+        depends_on:
+            - elasticsearch
+        networks:
+            - lab-logging-network
+
 networks:
     postgres-job-station:
+        driver: bridge
+    lab-logging-network:
         driver: bridge
 
 volumes:

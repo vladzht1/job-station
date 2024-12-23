@@ -1,11 +1,15 @@
 package edu.rut_miit.job_station.services;
 
-import edu.rut_miit.job_station.entities.Application;
+import java.util.List;
+
+import edu.rut_miit.job_station.dto.application.ApplicationDto;
 
 public interface ApplicationService {
-    Iterable<Application> findAllApplicationsToCompany(String companyId);
-    Iterable<Application> findAllUserApplications(String userId);
-    Application applyToVacancy(String vacancyId, String resumeId);
+    List<ApplicationDto> findAllApplicationsToCompany(String companyId);
+    List<ApplicationDto> findActiveApplicationsToCompany(String companyId);
+    List<ApplicationDto> findAllUserApplications(String userId);
+    ApplicationDto applyToVacancy(String vacancyId, String resumeId);
+    boolean checkUserAppliedToVacancy(String vacancyId, String userId);
     void markAsRead(String applicationId);
     void accept(String applicationId);
     void deny(String applicationId);

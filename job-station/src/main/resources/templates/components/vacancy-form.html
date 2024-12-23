@@ -1,0 +1,108 @@
+<div th:fragment="vacancyForm(action, cancelPath, primaryActionName)">
+    <form th:method="post" th:action="${action}" th:object="${form}">
+        <div class="visually-hidden">
+            <input type="text" name="companyId" th:value="*{companyId}" />
+        </div>
+
+        <div>
+            <label for="title" class="form-label mt-4">
+                Название должности
+            </label>
+            <input
+                id="title"
+                name="title"
+                type="text"
+                class="form-control"
+                placeholder="Укажите название должности"
+                th:value="*{title}"
+                th:errorclass="is-invalid"
+            />
+            <small
+                th:if="${#fields.hasErrors('title')}"
+                th:errors="*{title}"
+                class="text-danger"
+            >
+                Error message
+            </small>
+        </div>
+
+        <div>
+            <label for="offeredSalary" class="form-label mt-4">Зарплата</label>
+            <input
+                id="offeredSalary"
+                name="offeredSalary"
+                type="number"
+                min="0"
+                class="form-control"
+                placeholder="Укажите предлагаемую зарплату"
+                th:value="*{offeredSalary}"
+                th:errorclass="is-invalid"
+            />
+            <small class="form-text text-muted">
+                Если вы не хотите указывать эту информацию, оставьте значение 0
+            </small>
+            <small
+                th:if="${#fields.hasErrors('offeredSalary')}"
+                th:errors="*{offeredSalary}"
+                class="text-danger"
+            >
+                Error message
+            </small>
+        </div>
+
+        <div>
+            <label for="content" class="form-label mt-4">
+                Описание вакансии
+            </label>
+            <textarea
+                id="content"
+                name="content"
+                class="form-control"
+                rows="3"
+                style="height: 139px"
+                placeholder="Опишите требования к кандидатам, условия работы и другую информацию"
+                th:text="*{content}"
+                th:errorclass="is-invalid"
+            ></textarea>
+            <small
+                th:if="${#fields.hasErrors('content')}"
+                th:errors="*{content}"
+                class="text-danger"
+            >
+                Error message
+            </small>
+        </div>
+
+        <div>
+            <label for="skills" class="form-label mt-4">Навыки</label>
+            <input
+                id="skills"
+                name="skills"
+                type="text"
+                class="form-control"
+                placeholder="Укажите навыки, требуемые для вакансии"
+                th:value="*{skills}"
+                th:errorclass="is-invalid"
+            />
+            <small class="form-text text-muted">
+                Навыки можно добавлять через запятую
+            </small>
+            <div th:if="${#fields.hasErrors('skills')}">
+                <small th:errors="*{skills}" class="text-danger">
+                    Error message
+                </small>
+            </div>
+        </div>
+
+        <div class="mt-2 d-flex gap-2 justify-content-end">
+            <button
+                type="submit"
+                class="btn btn-primary"
+                th:text="${primaryActionName}"
+            >
+                Сохранить
+            </button>
+            <a th:href="${cancelPath}" class="btn btn-secondary">Отмена</a>
+        </div>
+    </form>
+</div>

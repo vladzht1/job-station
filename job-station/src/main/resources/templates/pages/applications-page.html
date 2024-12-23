@@ -1,0 +1,26 @@
+<th:block th:insert="~{/fragments/head}"></th:block>
+<th:block th:insert="~{/fragments/header}"></th:block>
+
+<main class="container">
+    <h1>Мои отклики</h1>
+
+    <div
+        th:if="${#lists.size(model.applications) != 0}"
+        class="m-0 d-flex flex-column gap-2"
+    >
+        <th:block
+            th:each="_application : ${model.applications}"
+            th:insert="~{/components/application-card::applicationCard(_application = _application)}"
+        ></th:block>
+    </div>
+    <div
+        th:if="${#lists.size(model.applications) == 0}"
+        class="alert alert-light"
+        role="alert"
+    >
+        Вы пока не откликнулись ни на одну вакансию. Откликайтесь на вакансии
+        <a th:href="@{/}">здесь</a>
+    </div>
+</main>
+
+<th:block th:insert="~{/fragments/bottom}"></th:block>

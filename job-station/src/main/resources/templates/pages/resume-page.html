@@ -1,0 +1,55 @@
+<th:block th:insert="~{/fragments/head}"></th:block>
+<th:block th:insert="~{/fragments/header}"></th:block>
+
+<main class="container">
+    <div class="row">
+        <section class="col-8">
+            <div
+                class="d-flex gap-2 justify-content-between align-items-center"
+            >
+                <h2
+                    th:text="${model.user.lastName + ' ' + model.user.firstName + ' ' + model.user.middleName}"
+                    class="fw-medium"
+                >
+                    ФИО
+                </h2>
+                <a
+                    th:href="@{/resumes/{id}/edit(id=${model.resume.id})}"
+                    class="btn btn-link"
+                >
+                    Редактировать
+                </a>
+            </div>
+        </section>
+        <section class="mt-4">
+            <h3 class="fw-medium" th:text="${model.resume.title}"></h3>
+
+            <article class="mt-2">
+                <span class="fw-bold">
+                    Желаемый уровень заработной платы:
+                </span>
+                <div
+                    th:replace="~{/components/price-component::price(value = ${model.resume.salary})}"
+                ></div>
+            </article>
+
+            <article class="mt-2">
+                <span class="fw-bold">О себе:</span>
+                <pre th:text="${model.resume.content}"></pre>
+            </article>
+
+            <article class="mt-2">
+                <span class="fw-bold">Навыки:</span>
+                <div class="d-flex gap-2 mt-1">
+                    <div
+                        class="badge rounded-pill bg-light"
+                        th:each="s : ${model.resume.skills}"
+                        th:text="${s}"
+                    ></div>
+                </div>
+            </article>
+        </section>
+    </div>
+</main>
+
+<th:block th:insert="~{/fragments/bottom}"></th:block>

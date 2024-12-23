@@ -3,6 +3,7 @@ package edu.rut_miit.job_station.entities;
 import edu.rut_miit.job_station.exceptions.ClientException;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.Column;
@@ -10,6 +11,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -19,17 +21,19 @@ public class Vacancy extends BaseEntity {
     private String content;
     private Company company;
     private boolean isRecruiting;
-    private float offeredSalary;
+    private int offeredSalary;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private Set<Skill> skills;
+    private List<Application> applications;
 
-    public Vacancy(String title, String content, Company company, float offeredSalary, Set<Skill> skills) {
+    public Vacancy(String title, String content, Company company, int offeredSalary, Set<Skill> skills, List<Application> applications) {
         setTitle(title);
         setContent(content);
         setCompany(company);
         setOfferedSalary(offeredSalary);
         setSkills(skills);
+        setApplications(applications);
 
         setCreationDate(LocalDateTime.now());
         setUpdatedAt(LocalDateTime.now());
@@ -59,7 +63,7 @@ public class Vacancy extends BaseEntity {
     }
 
     @Column(name = "offered_salary")
-    public float getOfferedSalary() {
+    public int getOfferedSalary() {
         return offeredSalary;
     }
 
@@ -78,6 +82,27 @@ public class Vacancy extends BaseEntity {
         return skills;
     }
 
+    @OneToMany
+    public List<Application> getApplications() {
+        return applications;
+    }
+
+    public void activate() {
+        if (isRecruiting) {
+            throw new ClientException.ConflictException("Vacancy is already active");
+        }
+
+        setRecruiting(true);
+    }
+
+    public void deactivate() {
+        if (!isRecruiting) {
+            throw new ClientException.ConflictException("Vacancy is already inactive");
+        }
+
+        setRecruiting(false);
+    }
+
     public void addSkill(Skill skill) {
         skills.add(skill);
         markAsUpdated();
@@ -93,12 +118,7 @@ public class Vacancy extends BaseEntity {
         markAsUpdated();
     }
 
-    public void setRecruiting(boolean isRecruiting) {
-        this.isRecruiting = isRecruiting;
-        markAsUpdated();
-    }
-
-    public void setOfferedSalary(float offeredSalary) {
+    public void setOfferedSalary(int offeredSalary) {
         if (offeredSalary < 0) {
             throw new ClientException.InvalidInputException("Зарплата не может быть отрицательной");
         }
@@ -109,6 +129,15 @@ public class Vacancy extends BaseEntity {
 
     public void setSkills(Set<Skill> skills) {
         this.skills = skills;
+        markAsUpdated();
+    }
+
+    public void setApplications(List<Application> applications) {
+        this.applications = applications;
+    }
+
+    protected void setRecruiting(boolean isRecruiting) {
+        this.isRecruiting = isRecruiting;
         markAsUpdated();
     }
 

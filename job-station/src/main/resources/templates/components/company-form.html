@@ -1,0 +1,82 @@
+<div
+    th:fragment="companyForm(action, cancelPath, primaryActionName, canSelectCreator)"
+>
+    <form th:method="post" th:action="${action}" th:object="${form}">
+        <div>
+            <label for="name" class="form-label mt-4">Название компании</label>
+            <input
+                type="text"
+                id="name"
+                name="name"
+                class="form-control"
+                placeholder="Введите название компании"
+                th:value="*{name}"
+                th:errorclass="is-invalid"
+            />
+            <small
+                th:if="${#fields.hasErrors('name')}"
+                th:errors="*{name}"
+                class="text-danger"
+            >
+                Error message
+            </small>
+        </div>
+
+        <div>
+            <label for="description" class="form-label mt-4">
+                Описание компании
+            </label>
+            <textarea
+                type="text"
+                id="description"
+                name="description"
+                class="form-control"
+                rows="5"
+                placeholder="Добавьте краткое описание компании"
+                th:text="*{description}"
+                th:errorclass="is-invalid"
+            ></textarea>
+            <small
+                th:if="${#fields.hasErrors('description')}"
+                th:errors="*{description}"
+                class="text-danger"
+            >
+                Error message
+            </small>
+        </div>
+
+        <div th:if="${canSelectCreator}">
+            <label for="creator" class="form-label mt-4">
+                Создатель компании
+            </label>
+            <select
+                class="form-select"
+                name="creatorId"
+                th:object="${form.creatorId}"
+            >
+                <option selected="form.creatorId == null" disabled>
+                    Выберите создателя компании
+                </option>
+                <option
+                    th:each="user : ${model.users}"
+                    th:text="${user.firstName + ' ' + user.lastName}"
+                    th:value="${user.id}"
+                    th:selected="${user.id == form.creatorId}"
+                >
+                    ФИ
+                </option>
+            </select>
+        </div>
+
+        <div class="mt-2 d-flex gap-2 justify-content-end">
+            <button
+                type="submit"
+                class="btn btn-primary"
+                th:text="${primaryActionName}"
+            >
+                Сохранить
+            </button>
+            <a th:href="${cancelPath}" class="btn btn-secondary">Отмена</a>
+        </div>
+    </form>
+</div>

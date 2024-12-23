@@ -1,0 +1,10 @@
+<div th:fragment="applyButton(vacancyId)">
+    <div>
+        <a
+            th:href="@{/vacancies/{id}/apply(id=${vacancyId})}"
+            class="btn btn-primary"
+        >
+            Откликнуться
+        </a>
+    </div>
+</div>

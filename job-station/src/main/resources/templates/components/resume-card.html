@@ -1,0 +1,29 @@
+<div th:fragment="resumeCard(resume)">
+    <div class="card">
+        <div class="card-body lh-sm">
+            <h5 class="card-title">
+                <a
+                    th:href="@{/resumes/{id}(id=${resume.id})}"
+                    class="text-decoration-none"
+                    th:text="${resume.title}"
+                >
+                    Название должности
+                </a>
+            </h5>
+            <div class="d-flex flex-column gap-1">
+                <div
+                    th:replace="~{/components/price-component::price(value = ${resume.salary})}"
+                ></div>
+                <div class="d-flex gap-2 mt-2">
+                    <span
+                        th:each="skill : ${resume.skills}"
+                        th:text="${skill}"
+                        class="badge rounded-pill bg-light"
+                    >
+                        Навык
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+<div th:fragment="recommendedVacancies(vacancies)">
+    <span class="fw-medium">Специально для вас</span>
+
+    <div
+        th:if="${vacancies != null && #lists.size(vacancies) > 0}"
+        class="m-0 d-flex flex-column gap-2"
+    >
+        <th:block
+            th:each="vacancy : ${vacancies}"
+            th:insert="~{/components/vacancy-card::vacancyCard(showActions = false, vacancy = vacancy)}"
+        ></th:block>
+    </div>
+    <div th:if="${vacancies == null || #lists.size(vacancies) == 0}">
+        Для вас пока нет рекомендаций
+    </div>
+</div>

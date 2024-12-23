@@ -1,0 +1,42 @@
+<div th:fragment="applicationCard(_application)">
+    <div class="card">
+        <div class="card-body">
+            <div
+                class="card-title d-flex justify-content-between align-items-center"
+            >
+                <h5>
+                    <a
+                        th:href="@{/vacancies/{id}(id=${_application.vacancy.id})}"
+                        class="text-decoration-none"
+                        th:text="${_application.vacancy.title}"
+                    >
+                        Название вакансии
+                    </a>
+                </h5>
+                <div th:text="${_application.status}" class="fw-bold">
+                    Статус
+                </div>
+            </div>
+
+            <div>
+                Компания:
+                <a
+                    th:href="@{/companies/{id}(id=${_application.vacancy.company.id})}"
+                    th:text="${_application.vacancy.company.name}"
+                >
+                    Название компании
+                </a>
+            </div>
+
+            <div>
+                Резюме:
+                <a
+                    th:href="@{/resumes/{id}(id=${_application.resume.id})}"
+                    th:text="${_application.resume.title}"
+                >
+                    Резюме
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

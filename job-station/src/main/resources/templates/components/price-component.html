@@ -1,0 +1,4 @@
+<div th:fragment="price(value)" class="fw-bold fs-5">
+    <div th:if="${value != '0'}" th:text="${value + ' руб'}">0 руб</div>
+    <div th:if="${value == '0'}">не указано</div>
+</div>
