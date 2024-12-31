@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.job_station_contracts.input.CompanyForm;
 import com.example.job_station_contracts.input.VacancyForm;
 
-@RequestMapping("/")
-public interface CompanyController {
+@RequestMapping("/companies")
+public interface CompanyController extends BaseController {
     @GetMapping()
     String companiesPage(Model model);
 

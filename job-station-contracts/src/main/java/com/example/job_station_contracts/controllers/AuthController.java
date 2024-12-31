@@ -13,7 +13,7 @@ import com.example.job_station_contracts.input.RegisterForm;
 import jakarta.validation.Valid;
 
 @RequestMapping("/auth")
-public interface AuthController {
+public interface AuthController extends BaseController {
     @GetMapping("/login")
     String loginPage(Model model);
 
