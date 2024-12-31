@@ -17,7 +17,7 @@ public class SkillRepositoryImpl extends BaseRepository<Skill, String> implement
     }
 
     @SuppressWarnings("unchecked")
-    @Override
+@Override
     public List<SkillRatingDto> findSortedByCompaniesDemands() {
         return entityManager().createNativeQuery("""
                     select skills.id, skills.name, skills.category, count(skills.id) as amount from skills

@@ -2,6 +2,8 @@ package edu.rut_miit.job_station.controllers;
 
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,8 @@ import edu.rut_miit.job_station.services.SkillService;
 @Controller
 @RequestMapping("/rating")
 public class RatingControllerImpl extends BaseControllerImpl implements RatingController {
+    private static final Logger logger = LogManager.getLogger(RatingControllerImpl.class);
+
     private CompanyService companyService;
     private SkillService skillService;
 
@@ -29,6 +33,10 @@ public class RatingControllerImpl extends BaseControllerImpl implements RatingCo
     @Override
     @GetMapping("")
     public String ratingPage(Model model) {
+        var loggedUser = getLoggedUser();
+
+        logger.info("user " + (loggedUser != null ? loggedUser.getUsername() : "anonymous") + " opened profile page");
+
         List<CompanyRatingViewModel> companies = companyService
             .findMostRankedCompanies()
             .stream()
@@ -45,7 +53,7 @@ public class RatingControllerImpl extends BaseControllerImpl implements RatingCo
             createBaseViewModel("Рейтинг"),
             companies,
             skills
-        ), getLoggedUser(), model);
+        ), loggedUser, model);
 
         return "pages/rating-page";
     }

@@ -2,6 +2,8 @@ package edu.rut_miit.job_station.controllers;
 
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +18,8 @@ import edu.rut_miit.job_station.services.VacancyService;
 @Controller()
 @RequestMapping("/")
 public class HomeControllerImpl extends BaseControllerImpl implements HomeController {
+    private static final Logger logger = LogManager.getLogger(HomeControllerImpl.class);
+
     private VacancyService vacancyService;
 
     public HomeControllerImpl(VacancyService vacancyService) {
@@ -26,6 +30,8 @@ public class HomeControllerImpl extends BaseControllerImpl implements HomeContro
     @Override
     public String homePage(Model model) {
         var loggedUser = getLoggedUser();
+
+        logger.info("user " + (loggedUser != null ? loggedUser.getUsername() : "anonymous") + " opened home page");
 
         List<VacancyViewModel> vacancies = (
             loggedUser != null

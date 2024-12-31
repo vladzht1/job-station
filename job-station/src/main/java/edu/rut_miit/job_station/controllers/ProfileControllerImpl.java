@@ -1,5 +1,7 @@
 package edu.rut_miit.job_station.controllers;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +17,8 @@ import edu.rut_miit.job_station.services.ResumeService;
 @Controller
 @RequestMapping("/profile")
 public class ProfileControllerImpl extends BaseControllerImpl implements ProfileController {
+    private static final Logger logger = LogManager.getLogger(ProfileControllerImpl.class);
+
     private ResumeService resumeService;
 
     public ProfileControllerImpl(ResumeService resumeService) {
@@ -25,6 +29,8 @@ public class ProfileControllerImpl extends BaseControllerImpl implements Profile
     @GetMapping("")
     public String profilePage(Model model) {
         var loggedUser = getLoggedUser();
+
+        logger.info("user " + loggedUser.getUsername() + " opened profile page");
 
         setBasicAttributes(new ProfilePageViewModel(
             createBaseViewModel("Мой профиль"),
